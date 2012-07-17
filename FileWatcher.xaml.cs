@@ -44,9 +44,24 @@ namespace WpfTestAssignment
 
         private void ReadAndDisplayContents()
         {
-            var contents = File.ReadAllText(_filePath);
+            string contents;
 
-            DisplayContents(contents);
+            if (ReadContents(out contents))
+                DisplayContents(contents);
+        }
+
+        private bool ReadContents(out string contents)
+        {
+            try
+            {
+                contents = File.ReadAllText(_filePath);
+                return true;
+            }
+            catch (IOException)
+            {
+                contents = null;
+                return false;
+            }
         }
 
         private delegate void DisplayContentsDelegate(string contents);
